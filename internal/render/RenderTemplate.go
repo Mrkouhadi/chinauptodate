@@ -26,7 +26,7 @@ func NewRenderer(a *config.AppConfig) {
 
 // add default data for the first rendered pages
 func AddDefaultData(tmplData *models.TemplateData, r *http.Request) *models.TemplateData {
-	// PopString puts somethign in session untill next page displayed and then taken out automatically
+	// PopString puts something in session untill next page displayed and then taken out automatically
 	tmplData.Flash = app.Session.PopString(r.Context(), "flash")
 	tmplData.Warning = app.Session.PopString(r.Context(), "warning")
 	tmplData.Error = app.Session.PopString(r.Context(), "error")
@@ -59,7 +59,7 @@ func Template(w http.ResponseWriter, r *http.Request, tmpl string, tmplData *mod
 	// render template
 	_, err = buf.WriteTo(w)
 	if err != nil {
-		fmt.Println("error wrinting template to the browser")
+		fmt.Println("error writing template to the browser")
 		return err
 	}
 	return nil
