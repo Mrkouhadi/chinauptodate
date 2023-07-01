@@ -18,6 +18,7 @@
 
     {{block "content" .}}
     <!-- all other pages and their content will be referenced here -->
+    <div class="h-screen w-screen bg-gray-100"></div>
     {{end}}
 
     <!-- footer that will appear on every page -->
@@ -27,8 +28,9 @@
     </footer>
     <!-- end of the footer -->
 
-    {{block "js" .}}
+    {{block "all-js" .}}
     <!-- every jsvascript code should be referenced here -->
+
     {{end}}
   </body>
 </html>

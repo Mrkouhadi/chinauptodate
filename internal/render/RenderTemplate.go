@@ -69,13 +69,13 @@ func Template(w http.ResponseWriter, r *http.Request, tmpl string, tmplData *mod
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
-	// get all files named *.page.html from ./templates
-	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.html", pathToTemplates))
+	// get all files named *.page.tmpl from ./templates
+	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.tmpl", pathToTemplates))
 	if err != nil {
 		return myCache, err
 	}
 
-	// range through all files ending with *.page.html
+	// range through all files ending with *.page.tmpl
 	for _, page := range pages {
 		fileName := filepath.Base(page) // filepath.Base returns the last element of the path
 		templSet, err := template.New(fileName).Funcs(functions).ParseFiles(page)
@@ -83,12 +83,12 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 			return myCache, err
 		}
 		// look for any layout that exist in that directory
-		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.html", pathToTemplates))
+		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.tmpl", pathToTemplates))
 		if err != nil {
 			return myCache, err
 		}
 		if len(matches) > 0 {
-			templSet, err = templSet.ParseGlob(fmt.Sprintf("%s/*.layout.html", pathToTemplates))
+			templSet, err = templSet.ParseGlob(fmt.Sprintf("%s/*.layout.tmpl", pathToTemplates))
 			if err != nil {
 				return myCache, err
 			}
