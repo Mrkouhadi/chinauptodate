@@ -8,5 +8,5 @@ import (
 )
 
 func (handlerRepo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "home.page.html", &models.TemplateData{})
+	render.Template(w, r, "home.page.tmpl", &models.TemplateData{})
 }
