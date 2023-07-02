@@ -37,13 +37,12 @@ func main() {
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
 	app.Session = session
-	// set up db
+	// set up database
 
 	// create templates cache
 	templateCache, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Cannot Create Template Cache !")
-		return
 	}
 	app.TemplateCache = templateCache
 
