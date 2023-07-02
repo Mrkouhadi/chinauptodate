@@ -7,6 +7,6 @@ import (
 	"github.com/mrkouhadi/chinauptodate/internal/render"
 )
 
-func (handlerRepo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "home.page.gohtml", &models.TemplateData{})
+func (handlerRepo *Repository) About(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "about.page.gohtml", &models.TemplateData{})
 }

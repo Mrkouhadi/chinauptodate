@@ -1,37 +1,44 @@
 {{define "base"}}
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <title>China Up To Date</title>
   </head>
-  <body class="bg-gray-900">
+  <body class="bg-gray-900 h-screen flex justify-between flex-col">
+
+
     <!-- navbar that will appear on every page -->
     <nav class="bg-red-400 h-24">
       <h1>Navbar</h1>
     </nav>
     <!-- end of navbar -->
 
-    {{block "content" .}}
-    <!-- all other pages and their content will be referenced here -->
-    <div class="h-screen w-screen bg-gray-100"></div>
-    {{end}}
+
+      {{block "content" .}}
+      <!-- all other pages and their content will be referenced here -->
+      {{end}}
+
 
     <!-- footer that will appear on every page -->
-
-    <footer class="h-24 bg-blue-400">
-      <h1>footer</h1>
-    </footer>
+      <footer class="h-24 bg-blue-400">
+        <h1>footer</h1>
+      </footer>
     <!-- end of the footer -->
+
 
     {{block "all-js" .}}
     <!-- every jsvascript code should be referenced here -->
-
     {{end}}
+
+
   </body>
 </html>
+
+
 {{end}}
