@@ -8,9 +8,7 @@ import (
 )
 
 func (handlerRepo *Repository) Article(w http.ResponseWriter, r *http.Request) {
-	// stringMap := make(map[string]string)
-	// stringMap["test"] = "test"
-	// render.Template(w, r, "article.page.gohtml", &models.TemplateData{StringMap: stringMap})
-	render.Template(w, r, "article.page.gohtml", &models.TemplateData{})
-
+	stringMap := make(map[string]string)
+	stringMap["test"] = "test"
+	render.Template(w, r, "article.page.gohtml", &models.TemplateData{StringMap: stringMap})
 }
