@@ -1,6 +1,5 @@
 {{define "base"}}
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,23 +21,28 @@
                     <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="#">CATEGORIES</a></li>
                     <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="/about">ABOUT</a></li>
                     <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="/contact">CONTACT</a></li>
-                    <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="/article">article</a></li>
+                    <li><a class="text-gray-100 hover:text-cyan-400 transition-colors bg-blue-400 hover:bg-indigo-600 rounded-md px-4 py-2" href="/register">REGISTER</a></li>
+                    <li><a class="text-gray-100 hover:text-cyan-400 transition-colors bg-green-500 hover:bg-green-600 rounded-md px-4 py-2" href="/login">LOGIN</a></li>
                 </ul>
           </div>
         </div>
     </nav>
     <!-- end of navbar -->
 
+
+    <!--content of other pages -->
+
   <div class="min-h-screen">
       {{block "content" .}}
 
       {{end}}
   </div>
+    <!-- end of content of other pages-->
+
+
 
     <!-- footer that will appear on every page -->
 
-
-<!-- component -->
 <div class="flex items-end w-full bg-white">
     <footer class="w-full text-gray-700 bg-gray-100 body-font">
         <div
@@ -158,12 +162,16 @@
 
 
 
-    <!-- end of the footer -->
+<!-- end of the footer -->
 
 
-    {{block "all-js" .}}
+<!--js of other pages -->
 
+    {{block "js" .}}
+    
     {{end}}
+
+<!--end of js of other pages -->
 
 
   </body>
