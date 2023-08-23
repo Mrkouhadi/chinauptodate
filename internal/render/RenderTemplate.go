@@ -8,16 +8,24 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/justinas/nosurf"
 	"github.com/mrkouhadi/chinauptodate/internal/config"
 	"github.com/mrkouhadi/chinauptodate/internal/models"
 )
 
-var functions = template.FuncMap{}
+var functions = template.FuncMap{
+	"GetDate": GetDate,
+}
 var pathToTemplates = "./templates"
 
 var app *config.AppConfig
+
+// templates functions (helpers)
+func GetDate(d time.Time) string {
+	return d.Format("2006-01-02")
+}
 
 // newTemplates sets the config for the template package
 func NewRenderer(a *config.AppConfig) {
