@@ -1,16 +1,45 @@
 {{template "base" .}} 
+
 {{define "content"}}
-<div class="container">
-  <div class="">
-    <div class="">
-      <h1 class="text-gray-100">ARTICLE page</h1>
-    </div>
-  </div>
-</div>
-{{end}} 
+        <div class="my-4 page">
+            {{$a := index .Data "article"}}
+            <h1>Title: {{$a.News_title}}</h1>
+            <h1>Content: {{$a.News_content}}</h1>
+            <h1>Date: {{GetDate $a.Created_at}}</h1>
+            <img src="{{$a.News_image}}" class="w-66 h-52 rounded"/>
+        </div>
+
+        {{/* modal */}}
+        <button class="showModal bg-blue-600 text-white ml-4 py-2 px-4 rounded-md">Show Modal</button>
+              
+            <div class="modal  bg-slate-800 bg-opacity-50 flex justify-center items-center fixed top-0 right-0 bottom-0 left-0 hidden">
+                    <div class="bg-white px-16 py-14 rounded-md text-center">
+                        <h1 class="text-xl mb-4 font-bold text-slate-500">hello world</h1>
+                        <button class="understood-btn bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold">Understood</button>
+                    </div>
+            </div>
+{{end}}
 
 {{define "js"}}
   <script>
-    console.log("Linked !")
+        const showmodal_btn = document.querySelector(".showModal");
+        const hidemodal_btn = document.querySelector(".understood-btn");
+        const modal = document.querySelector(".modal")
+
+        function showOurModal(color){
+                const classes = document.querySelector(".modal").classList
+                if (classes[classes.length-1] === "hidden" ){
+                    modal.classList.remove("hidden")
+                }else{
+                    modal.classList.add("hidden")
+                }
+        }
+        showmodal_btn.addEventListener("click", showOurModal)
+        hidemodal_btn.addEventListener("click", showOurModal)
+
+        {{with .Error}}
+            {{/* showOurModal("{{.}}") */}}
+        {{end}}
+        
   </script>
 {{end}}

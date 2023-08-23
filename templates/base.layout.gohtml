@@ -7,7 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <title>China Up To Date</title>
+    <title>
+        {{with index .StringMap "title"}}
+            {{.}} - China Up To Date
+        {{end}}
+    </title>
   </head>
   <body class="">
 
@@ -15,10 +19,9 @@
     <nav class="relative shadow bg-gray-100">
       <div class="w-full backdrop-blur-sm">
           <div class="relative z-1 h-16 mx-auto px-5 max-w-7xl flex items-center justify-between text-white">
-                <a class="text-2xl text-gray-700 hover:text-cyan-400 transition-colors" href="">Logo</a>
+                <a class="text-2xl text-gray-700 hover:text-cyan-400 transition-colors" href="/">Logo</a>
                 <ul class="flex items-center gap-5">
                     <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="/">HOME</a></li>
-                    <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="#">CATEGORIES</a></li>
                     <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="/about">ABOUT</a></li>
                     <li><a class="text-gray-700 hover:text-cyan-400 transition-colors" href="/contact">CONTACT</a></li>
                     <li><a class="text-gray-100 hover:text-cyan-400 transition-colors bg-blue-400 hover:bg-indigo-600 rounded-md px-4 py-2" href="/register">REGISTER</a></li>
@@ -31,7 +34,6 @@
 
 
     <!--content of other pages -->
-
   <div class="min-h-screen">
       {{block "content" .}}
 
@@ -39,10 +41,27 @@
   </div>
     <!-- end of content of other pages-->
 
+    <!-- newsletter -->
+    <div class="flex flex-col  mx-4 md:h-56 bg-white rounded-lg shadow-lg overflow-hidden md:flex-row my-4">
+        <div class="md:flex items-center justify-center md:w-1/2 md:bg-gray-700">
+            <div class="py-6 px-8 md:py-0">
+                <h2 class="text-gray-700 text-2xl font-bold md:text-gray-100">Sign Up For News Letter</h2>
+                <p class="mt-2 text-gray-600 md:text-gray-400">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur obcaecati odio</p>
+            </div>
+        </div>
+        <div class="flex items-center justify-center pb-6 md:py-0 md:w-1/2 md:border-b-8 border-gray-700">
+            <form action="#" method="post">
+                <div class="flex flex-col rounded-lg overflow-hidden sm:flex-row">
+                    <input class="lg:w-[300px] py-3 px-4 bg-gray-200 text-gray-800 border-gray-300 border-2 outline-none placeholder-gray-500 focus:bg-gray-100" type="text" name="email" placeholder="Enter your email">
+                    <button class="py-3 px-4 bg-gray-700 text-gray-100 font-semibold uppercase hover:bg-gray-600">subscribe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- end of newsletter-->
 
 
     <!-- footer that will appear on every page -->
-
 <div class="flex items-end w-full bg-white">
     <footer class="w-full text-gray-700 bg-gray-100 body-font">
         <div
