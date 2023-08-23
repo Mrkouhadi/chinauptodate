@@ -1,13 +1,16 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/mrkouhadi/chinauptodate/internal/config"
+	"github.com/mrkouhadi/chinauptodate/internal/db"
 	"github.com/mrkouhadi/chinauptodate/internal/handlers"
 	"github.com/mrkouhadi/chinauptodate/internal/helpers"
 	"github.com/mrkouhadi/chinauptodate/internal/render"
@@ -37,8 +40,14 @@ func main() {
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
 	app.Session = session
-	// set up database
-
+	// set up database FIXME:
+	// url example: "postgres://username:password@localhost:5432/database_name"
+	dbpool, err := pgxpool.New(context.Background(), "postgres://kouhadi:@localhost:5432/chinauptodate")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer dbpool.Close()
+	dbRepo := db.NewPgxRepository(dbpool)
 	// create templates cache
 	templateCache, err := render.CreateTemplateCache()
 	if err != nil {
@@ -50,7 +59,7 @@ func main() {
 	app.UseCache = false
 
 	// set up implementation of handlers
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, dbRepo)
 	handlers.NewHandlers(repo)
 	// start render of templates
 	render.NewRenderer(&app)
