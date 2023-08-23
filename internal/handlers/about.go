@@ -8,5 +8,7 @@ import (
 )
 
 func (handlerRepo *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "about.page.gohtml", &models.TemplateData{})
+	strMap := make(map[string]string)
+	strMap["title"] = "About us"
+	render.Template(w, r, "about.page.gohtml", &models.TemplateData{StringMap: strMap})
 }
