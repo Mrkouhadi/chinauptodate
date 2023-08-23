@@ -8,5 +8,7 @@ import (
 )
 
 func (handlerRepo *Repository) LoginGET(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "login.page.gohtml", &models.TemplateData{})
+	strMap := make(map[string]string)
+	strMap["title"] = "Login in to your account"
+	render.Template(w, r, "login.page.gohtml", &models.TemplateData{StringMap: strMap})
 }

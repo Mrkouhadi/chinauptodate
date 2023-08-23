@@ -8,5 +8,7 @@ import (
 )
 
 func (handlerRepo *Repository) RegisterGET(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "register.page.gohtml", &models.TemplateData{})
+	strMap := make(map[string]string)
+	strMap["title"] = "Register On our platform"
+	render.Template(w, r, "register.page.gohtml", &models.TemplateData{StringMap: strMap})
 }
