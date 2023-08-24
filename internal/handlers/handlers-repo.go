@@ -2,14 +2,14 @@ package handlers
 
 import (
 	"github.com/mrkouhadi/chinauptodate/internal/config"
-	"github.com/mrkouhadi/chinauptodate/internal/db"
+	db "github.com/mrkouhadi/chinauptodate/internal/db/postgres"
 )
 
 // repository type
 
 type Repository struct {
 	App *config.AppConfig
-	DB  db.PgxRepository // TODO:
+	DB  db.PgxRepository
 }
 
 // the repo that handlers methods belong to
@@ -19,7 +19,7 @@ var Repo *Repository
 func NewRepo(a *config.AppConfig, db *db.PgxRepository) *Repository {
 	return &Repository{
 		App: a,
-		DB:  *db, // TODO:
+		DB:  *db,
 	}
 }
 

@@ -2,6 +2,9 @@ package db
 
 import (
 	"errors"
+
+	"github.com/google/uuid"
+	"github.com/mrkouhadi/chinauptodate/internal/models"
 )
 
 var (
@@ -12,13 +15,7 @@ var (
 )
 
 type Repository interface {
-	CreateCar(car Car) (*Car, error)
-}
-
-type Car struct {
-	ID    int64
-	Brand string
-	Model string
-	Color string
-	Price float64
+	CreateArticle(a models.Article) (*models.Article, error)
+	CreateCategory(c models.Category) (*models.Category, error)
+	GetArticleByID(id uuid.UUID) (*models.Article, error)
 }
