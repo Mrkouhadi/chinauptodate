@@ -10,7 +10,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/mrkouhadi/chinauptodate/internal/config"
-	"github.com/mrkouhadi/chinauptodate/internal/db"
+	db "github.com/mrkouhadi/chinauptodate/internal/db/postgres"
 	"github.com/mrkouhadi/chinauptodate/internal/handlers"
 	"github.com/mrkouhadi/chinauptodate/internal/helpers"
 	"github.com/mrkouhadi/chinauptodate/internal/render"
@@ -48,6 +48,7 @@ func main() {
 	}
 	defer dbpool.Close()
 	dbRepo := db.NewPgxRepository(dbpool)
+
 	// create templates cache
 	templateCache, err := render.CreateTemplateCache()
 	if err != nil {
