@@ -18,4 +18,6 @@ type Repository interface {
 	CreateArticle(a models.Article) (*models.Article, error)
 	CreateCategory(c models.Category) (*models.Category, error)
 	GetArticleByID(id uuid.UUID) (*models.Article, error)
+	AllArticles() ([]models.Article, error)
+	UpdateArticle(id uuid.UUID, updated models.Article) (*models.Article, error)
 }
