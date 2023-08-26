@@ -1,0 +1,15 @@
+{{template "base" .}} 
+{{define "content"}}
+<div class="">
+    <form
+        action="http://localhost:8080/new-article"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
+        <input type="file" name="img" class="px-8 py-4 mb-8 bg-pink-400 border-none rounded" multiple/>
+        <input type="submit" value="Upload file.." class="px-8 py-4 mb-8 bg-pink-400 border-none rounded"/>
+    </form>
+</div>
+{{end}} 
