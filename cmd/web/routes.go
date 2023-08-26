@@ -16,19 +16,17 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(LoadSession)
 	mux.Use(NoSurf)
-
 	//authentication Routes
 	mux.Get("/register", handlers.Repo.RegisterGET)
 	mux.Get("/login", handlers.Repo.LoginGET)
-
 	// GET routes
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
 	mux.Get("/contact", handlers.Repo.ContactGet)
 	mux.Get("/{category}", handlers.Repo.CategoryGet)
 	mux.Get("/{category}/{id}", handlers.Repo.ArticleGet)
-
-	// POST handlers
+	// POST handlers PostSubscribe
+	mux.Post("/subscribe", handlers.Repo.PostSubscribe)
 
 	// render STATIC FILES
 	fileServer := http.FileServer(http.Dir("./static/"))
