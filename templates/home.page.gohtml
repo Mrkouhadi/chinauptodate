@@ -1,10 +1,32 @@
 {{template "base" .}} 
 {{define "content"}}
-<div class="container">
-  <div class="">
-    <div class="">
-      <h1 class="text-gray-100">HOME page</h1>
-    </div>
-  </div>
-</div>
+        <div class="px-2 my-4 page flex items-center flex-wrap justify-around gap-4">
+            {{$articles := index .Data "articles"}}
+            
+            {{range $articles}}
+            <div class="h-[60vh] max-w-md overflow-hidden rounded-lg bg-white shadow hover:bg-gray-100">
+                <img class=" w-full h-[59%]"
+                    src="{{.Article.News_image}}"
+                    alt=""
+                />
+                <div class="p-2">
+                    <p class="mb-1 text-sm text-primary-500 flex items-center justify-between text-gray-500">China Up To Date • <time> {{GetDate .Article.Created_at}} </time></p>
+                    <!-- FIXME: GetDate  -->
+                    <h3 class="text-xl font-medium text-gray-900">
+                       <a href="/{{index $.StringMap "title"}}/{{.Article.News_id}}"> {{.Article.News_title}} </a>
+                    </h3>
+                    <p class="mt-1 text-gray-500">{{GetArticleSummary .Article.News_content}}...</p>
+                    <!-- FIXME: GetArticleSummary -->
+                    <div class="mt-4 flex justify-between gap-2">
+                        <a href="/{{.CategoryTitle}}"
+                            class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-4 py-3 text-xs font-semibold text-blue-600"
+                        >
+                            {{.CategoryTitle}}
+                        </a>
+                        <a class="px-4 py-2 rounded-lg bg-pink-400" href="/{{.CategoryTitle}}/{{.Article.News_id}}"> Read Full Article </a>
+                    </div>
+                </div>
+            </div> 
+            {{end}}
+        </div>
 {{end}} 
