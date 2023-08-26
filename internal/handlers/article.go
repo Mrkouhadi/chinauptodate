@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
+	"github.com/mrkouhadi/chinauptodate/internal/helpers"
 	"github.com/mrkouhadi/chinauptodate/internal/models"
 	"github.com/mrkouhadi/chinauptodate/internal/render"
 )
@@ -52,4 +53,23 @@ func (handlerRepo *Repository) ArticleGet(w http.ResponseWriter, r *http.Request
 		StringMap: stringMap,
 		Data:      data,
 	})
+}
+
+// /////////////// ADMIN
+// / insert a new article : http://localhost:8080/new-article
+// GET
+func (handlerRepo *Repository) GETCreateNewArticle(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "new-article.page.gohtml", &models.TemplateData{})
+}
+
+// POST
+func (handlerRepo *Repository) POSTnewArticle(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	// upload an image to the filesystem (./static/images)
+	helpers.UploadFile(w, r, "new-image")
+
+	// helpers.UploadMultipleFiles(w, r)
+	handlerRepo.App.Session.Put(r.Context(), "flash", "An article has been added succesfully !")
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

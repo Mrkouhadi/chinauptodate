@@ -27,3 +27,24 @@ func (r *PgxRepository) AllArticles() ([]models.Article, error) {
 	}
 	return allArticles, nil
 }
+
+// ////////////////////////////////// get all categories
+func (r *PgxRepository) AllCategories() ([]models.Category, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	rows, err := r.db.Query(ctx, "SELECT * FROM categories")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var allCategories []models.Category
+
+	for rows.Next() {
+		var category models.Category
+		if err := rows.Scan(&category.Category_id, &category.Category_title, &category.Category_description, &category.Created_at, &category.Updated_at); err != nil {
+			return nil, err
+		}
+		allCategories = append(allCategories, category)
+	}
+	return allCategories, nil
+}

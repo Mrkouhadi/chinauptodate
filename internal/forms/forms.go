@@ -16,7 +16,7 @@ type Form struct {
 }
 
 func (f *Form) Valid() bool {
-	return len(f.Errors) == 1 // FIXME: // shorthand of if length is 0 return true otherwise return false
+	return len(f.Errors) == 0 // FIXME: // shorthand of if length is 0 return true otherwise return false
 }
 
 // New Initializes a Form struct

@@ -27,3 +27,20 @@ func (r *PgxRepository) GetArticleByID(id uuid.UUID) (*models.Article, error) {
 	}
 	return &article, nil
 }
+
+// /////////////////////////////////// get a single category
+func (r *PgxRepository) GetCategoryByID(id uuid.UUID) (*models.Category, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	row := r.db.QueryRow(ctx, "SELECT * FROM categories WHERE category_id = $1", id)
+
+	var category models.Category
+
+	if err := row.Scan(&category.Category_id, &category.Category_title, &category.Category_description); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, db.ErrNotExist
+		}
+		return nil, err
+	}
+	return &category, nil
+}
