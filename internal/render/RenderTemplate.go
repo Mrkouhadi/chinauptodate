@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/justinas/nosurf"
@@ -16,7 +17,8 @@ import (
 )
 
 var functions = template.FuncMap{
-	"GetDate": GetDate,
+	"GetDate":           GetDate,
+	"GetArticleSummary": GetArticleSummary,
 }
 var pathToTemplates = "./templates"
 
@@ -25,6 +27,9 @@ var app *config.AppConfig
 // templates functions (helpers)
 func GetDate(d time.Time) string {
 	return d.Format("2006-01-02")
+}
+func GetArticleSummary(str string) string {
+	return strings.TrimSpace(str[0:150])
 }
 
 // newTemplates sets the config for the template package
