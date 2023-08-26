@@ -20,4 +20,7 @@ type Repository interface {
 	GetArticleByID(id uuid.UUID) (*models.Article, error)
 	AllArticles() ([]models.Article, error)
 	UpdateArticle(id uuid.UUID, updated models.Article) (*models.Article, error)
+	UpdateCategory(id uuid.UUID, updated models.Category) (*models.Category, error)
+	GetCategoryByID(id uuid.UUID) (*models.Category, error)
+	AllCategories() ([]models.Category, error)
 }
