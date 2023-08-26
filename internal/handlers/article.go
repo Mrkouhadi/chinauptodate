@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
@@ -15,29 +13,43 @@ func (handlerRepo *Repository) ArticleGet(w http.ResponseWriter, r *http.Request
 	category := chi.URLParam(r, "category")
 	stringMap := make(map[string]string)
 	stringMap["title"] = category
-	id := chi.URLParam(r, "id") // id of the article
+	id := chi.URLParam(r, "id")
 	id_uuid, _ := uuid.Parse(id)
-
-	// get all articles
-	articles, _ := handlerRepo.DB.AllArticles()
-	fmt.Println("Original title of the 1st article: ", articles[0].News_title)
-	//  get a single article
 	art, _ := handlerRepo.DB.GetArticleByID(id_uuid)
-	/// update article
-	newArticle := models.Article{
-		News_title:     "UPDATED the new title of this article",
-		News_image:     art.News_image,
-		News_content:   art.News_content,
-		Comment_status: true,
-		Updated_at:     time.Now(),
-	}
-	NewArticle, err := handlerRepo.DB.UpdateArticle(id_uuid, newArticle)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("The new pdated article title:", NewArticle.News_title)
+
+	data := make(map[string]interface{})
+	data["article"] = art
+
+	//createig a new
+	// auId, _ := uuid.Parse("868f3b65-cb0f-4487-96fd-e425af6d868b")
+	// catid, _ := uuid.Parse("0d23f565-e1b2-483f-89cb-e3d2cc4bd084")
+	// article := models.Article{
+	// 	News_id:     uuid.New(),
+	// 	Category_id: catid,
+	// 	Author_id:   auId,
+	// 	News_title:  "Some International News to read",
+	// 	News_image:  "./static/images/test.jpeg",
+	// 	News_content: `générateur de magazines en ligne sont toujours populaires, et leurs auteurs jouissent de la célébrité et du respect. C’est pourquoi, pour de nombreux rédacteurs indépendants, écrire des articles dans des magazines est souvent un objectif de carrière – car la rémunération peut être dix fois plus élevée par mot que la rédaction d’articles ou de textes pour le journal local.
+	// 	La rédaction d’articles de magazines exige des compétences différentes de celles des articles de blog, des scénarios ou des publicités. De plus, en tant que rédacteur de magazine, plus que dans toute autre industrie, vous devez vous spécialiser pour réussir. Vous écrivez des articles sur l’histoire différemment, sur le sport différemment, et sur l’histoire du sport d’une manière encore différente.
+	// 	Le talent d’écriture, l’amour de la recherche méticuleuse et la souplesse dans la création de textes sont des compétences essentielles que vous devez maîtriser. C’est pourquoi de nombreuses personnes désireuses de créer et de publier leur propre magazine doivent maîtriser ce style spécifique et apprendre à rédiger un article de magazine.`,
+	// 	Comment_status: true,
+	// 	Created_at:     time.Now(),
+	// 	Updated_at:     time.Now(),
+	// }
+	// addedArt, _ := Repo.DB.CreateArticle(article)
+	// fmt.Println(addedArt.News_title)
+
+	// creating a new category
+	// cat := models.Category{
+	// 	Category_id:          uuid.New(),
+	// 	Category_title:       "GLOBAL",
+	// 	Category_description: "All international news with all categories",
+	// }
+	// newcat, _ := handlerRepo.DB.CreateCategory(cat)
+	// fmt.Println(newcat)
 	// render html template
 	render.Template(w, r, "article.page.gohtml", &models.TemplateData{
 		StringMap: stringMap,
+		Data:      data,
 	})
 }
