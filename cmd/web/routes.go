@@ -25,8 +25,13 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/contact", handlers.Repo.ContactGet)
 	mux.Get("/{category}", handlers.Repo.CategoryGet)
 	mux.Get("/{category}/{id}", handlers.Repo.ArticleGet)
+
+	// admin
+	mux.Get("/new-article", handlers.Repo.GETCreateNewArticle)
+	mux.Post("/new-article", handlers.Repo.POSTnewArticle)
+
 	// POST handlers PostSubscribe
-	mux.Post("/subscribe", handlers.Repo.PostSubscribe)
+	mux.Post("/", handlers.Repo.PostSubscribe)
 
 	// render STATIC FILES
 	fileServer := http.FileServer(http.Dir("./static/"))
