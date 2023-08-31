@@ -10,6 +10,13 @@
 
         <input type="file" name="img" class="px-8 py-4 mb-8 bg-pink-400 border-none rounded" multiple/>
         <input type="submit" value="Upload file.." class="px-8 py-4 mb-8 bg-pink-400 border-none rounded"/>
+        
+        {{$img := index .Data "image"}}
+        <h1 class="">{{$img.Filename}}</h1>
+        <h1 class="">Size: {{$img.Size}} KB</h1>
+
+        <img src="./static/images/new-image{{$img.Extension}}" class="w-1/2"/>
+    
     </form>
 </div>
 {{end}} 
