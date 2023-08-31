@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -67,9 +68,14 @@ func (handlerRepo *Repository) POSTnewArticle(w http.ResponseWriter, r *http.Req
 	r.ParseForm()
 
 	// upload an image to the filesystem (./static/images)
-	helpers.UploadFile(w, r, "new-image")
-
+	imgDetails, _ := helpers.UploadFile(w, r, "new-image")
+	fmt.Println(imgDetails)
 	// helpers.UploadMultipleFiles(w, r)
 	handlerRepo.App.Session.Put(r.Context(), "flash", "An article has been added succesfully !")
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	// http.Redirect(w, r, "/", http.StatusSeeOther)
+	data := make(map[string]interface{})
+	data["image"] = imgDetails
+	render.Template(w, r, "new-article.page.gohtml", &models.TemplateData{
+		Data: data,
+	})
 }
