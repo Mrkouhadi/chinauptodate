@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/textproto"
 	"os"
 	"path/filepath"
 	"runtime/debug"
@@ -34,8 +35,15 @@ func ServerError(w http.ResponseWriter, err error) {
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
+type ImageDetails struct {
+	Filename  string
+	Extension string
+	Size      int64
+	Header    textproto.MIMEHeader
+}
+
 // / upload a file fuction
-func UploadFile(w http.ResponseWriter, r *http.Request, name string) {
+func UploadFile(w http.ResponseWriter, r *http.Request, name string) (ImageDetails, error) {
 	// 1. Parse input, type multipart/form-data
 	r.Body = http.MaxBytesReader(w, r.Body, 32<<20+512)
 	r.ParseMultipartForm(32 << 20) // means max 32 MB    32 << 20 means max 10 MB
@@ -44,7 +52,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request, name string) {
 	if err != nil {
 		fmt.Println("Failed to retrieve file from form-data")
 		fmt.Println(err)
-		return
+		return ImageDetails{}, err
 	}
 	defer file.Close()
 
@@ -59,14 +67,20 @@ func UploadFile(w http.ResponseWriter, r *http.Request, name string) {
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return ImageDetails{}, err
 	}
 	defer tempoFile.Close()
 	fileBytes, err := io.ReadAll(file)
 	if err != nil {
-		fmt.Println(err)
+		return ImageDetails{}, err
 	}
 	tempoFile.Write(fileBytes)
+	return ImageDetails{
+		Filename:  handler.Filename,
+		Extension: ext,
+		Size:      handler.Size / 1000, // KB
+		Header:    handler.Header,
+	}, nil
 }
 
 // ////////// upload multiple files
