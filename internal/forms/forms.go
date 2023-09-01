@@ -59,3 +59,10 @@ func (f *Form) Has(field string, r *http.Request) bool {
 	x := f.Get(field)
 	return x != ""
 }
+
+// matching passwords
+func (f *Form) IsPassswordMatched(field, field2 string) {
+	if f.Get(field) != f.Get(field2) {
+		f.Errors.Add(field2, "Password does not match")
+	}
+}

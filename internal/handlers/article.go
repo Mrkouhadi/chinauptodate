@@ -12,12 +12,12 @@ import (
 )
 
 func (handlerRepo *Repository) ArticleGet(w http.ResponseWriter, r *http.Request) {
-	category := chi.URLParam(r, "category")
+	// category := chi.URLParam(r, "category")
 	stringMap := make(map[string]string)
-	stringMap["title"] = category
 	id := chi.URLParam(r, "id")
 	id_uuid, _ := uuid.Parse(id)
 	art, _ := handlerRepo.DB.GetArticleByID(id_uuid)
+	stringMap["title"] = art.News_title
 
 	data := make(map[string]interface{})
 	data["article"] = art

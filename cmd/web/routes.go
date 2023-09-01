@@ -32,6 +32,8 @@ func routes(app *config.AppConfig) http.Handler {
 
 	// POST handlers PostSubscribe
 	mux.Post("/", handlers.Repo.PostSubscribe)
+	mux.Post("/register", handlers.Repo.RegisterPost)
+	mux.Post("/login", handlers.Repo.LoginPost)
 
 	// render STATIC FILES
 	fileServer := http.FileServer(http.Dir("./static/"))
