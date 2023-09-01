@@ -39,3 +39,16 @@ type Author struct {
 	Created_at    time.Time
 	Updated_at    time.Time
 }
+
+type User struct {
+	User_id       uuid.UUID
+	First_name    string
+	Last_name     string
+	Gender        string
+	Email         string
+	Password      string
+	Profile_image string
+	Last_login    time.Time
+	Created_at    time.Time
+	Updated_at    time.Time
+}

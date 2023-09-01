@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/mrkouhadi/chinauptodate/internal/config"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var app *config.AppConfig
@@ -132,4 +133,15 @@ func UploadMultipleFiles(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+}
+
+// /   Hashing Passwords
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
