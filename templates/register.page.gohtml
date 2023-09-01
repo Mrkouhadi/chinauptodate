@@ -3,27 +3,68 @@
 {{define "content"}}
 <div class="container mx-auto py-8">
     <h1 class="text-2xl font-bold my-6 text-center">Register</h1>
-    <form class="w-full max-w-sm mx-auto bg-white p-8 my-6 rounded-md shadow-md">
+    <form method="POST" enctype="multipart/form-data" class="overflow-hidden w-full max-w-sm mx-auto bg-white p-8 my-6 rounded-md shadow-md">
       <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="fname">First Name</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="text" id="name" name="name" placeholder="John Doe">
+          type="text" id="fname" name="fname" placeholder="John">
+         {{with .Form.Errors.Get "fname"}}
+            <label class="text-red-400 text-sm">{{.}}</label>
+          {{end}}
       </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="lname">Last Name</label>
+        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          type="text" id="lname" name="lname" placeholder="Doe">
+         {{with .Form.Errors.Get "lname"}}
+            <label class="text-red-400 text-sm">{{.}}</label>
+          {{end}}
+      </div>
+
+      <div class="mb-4 flex gap-8 items-center">
+        <div class="flex gap-2 items-center">
+          <input type="radio" id="male" name="gender" value="male"  />
+          <label for="male">Male</label>
+        </div>
+        <div class="flex gap-2 items-center">
+          <input type="radio" id="female" name="gender" value="female"  />
+          <label for="female">Female</label>
+        </div>
+        {{with .Form.Errors.Get "gender"}}
+            <label class="text-red-400 text-sm">{{.}}</label>
+        {{end}}
+      </div>
+
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           type="email" id="email" name="email" placeholder="john@example.com">
+         {{with .Form.Errors.Get "email"}}
+            <label class="text-red-400 text-sm">{{.}}</label>
+          {{end}}
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           type="password" id="password" name="password" placeholder="********">
+         {{with .Form.Errors.Get "password"}}
+            <label class="text-red-400 text-sm">{{.}}</label>
+          {{end}}
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm-password">Confirm Password</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           type="password" id="confirm-password" name="confirm-password" placeholder="********">
+         {{with .Form.Errors.Get "confirm-password"}}
+            <label class="text-red-400 text-sm">{{.}}</label>
+          {{end}}
+      </div>
+      <div class="">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm-password">
+          Profile Image               
+        </label>
+        <input type="file" name="img" class="px- py-4 mb-8"/>
       </div>
       <button
         class="w-full bg-blue-400 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
