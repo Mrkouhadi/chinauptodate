@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
+	"encoding/gob"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/mrkouhadi/chinauptodate/internal/config"
 	db "github.com/mrkouhadi/chinauptodate/internal/db/postgres"
@@ -24,6 +26,8 @@ var infoLog *log.Logger
 var errorLog *log.Logger
 
 func main() {
+	// register gob
+	gob.Register(uuid.UUID{})
 	// set the project into DEV mode
 	app.InProduction = false
 
@@ -40,7 +44,7 @@ func main() {
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
 	app.Session = session
-	// set up database FIXME:
+	// set up database
 	// url example: "postgres://username:password@localhost:5432/database_name"
 	dbpool, err := pgxpool.New(context.Background(), "postgres://kouhadi:@localhost:5432/chinauptodate")
 	if err != nil {
@@ -71,7 +75,7 @@ func main() {
 		Addr:    portNumber,
 		Handler: routes(&app),
 	}
-	log.Printf("Listening on Port: %s", portNumber)
+	log.Printf("Listening on Port %s", portNumber)
 	err = server.ListenAndServe()
 	log.Fatal(err)
 }
