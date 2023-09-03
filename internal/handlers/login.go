@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/mrkouhadi/chinauptodate/internal/models"
 	"github.com/mrkouhadi/chinauptodate/internal/render"
@@ -22,12 +24,32 @@ func (handlerRepo *Repository) LoginPost(w http.ResponseWriter, r *http.Request)
 	email := r.Form.Get("email")
 
 	u, err := handlerRepo.DB.AuthenticateUser(email, password)
+
+	// wrong credentials:
 	if err != nil {
-		// wrong credentials
 		handlerRepo.App.Session.Put(r.Context(), "error", "Invalid Credentials")
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 		return
 	}
-	handlerRepo.App.Session.Put(r.Context(), "user_id", u.User_id)
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+
+	// correct credentials:
+	uu := models.User{
+		User_id:       u.User_id,
+		First_name:    u.First_name,
+		Last_name:     u.Last_name,
+		Gender:        u.Gender,
+		Email:         u.Email,
+		Password:      u.Password,
+		Last_login:    time.Now(),
+		Profile_image: u.Profile_image,
+		Created_at:    u.Created_at,
+		Updated_at:    u.Updated_at,
+	}
+	newU, err := handlerRepo.DB.UpdateUser(uu.User_id, uu)
+	if err != nil {
+		log.Println("could not update user last login", err)
+		return
+	}
+	handlerRepo.App.Session.Put(r.Context(), "user", newU)
+	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
 }

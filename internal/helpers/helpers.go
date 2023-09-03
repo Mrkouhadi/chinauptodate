@@ -145,3 +145,9 @@ func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
+
+// check if user is authenticated
+func IsUserAuthenticated(r *http.Request) bool {
+	exists := app.Session.Exists(r.Context(), "user")
+	return exists
+}

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -35,8 +36,6 @@ func (handlerRepo *Repository) RegisterPost(w http.ResponseWriter, r *http.Reque
 	email := r.Form.Get("email")
 	password := r.Form.Get("password")
 	gender := r.Form.Get("gender")
-	// upload an image to the filesystem (./static/images)
-	img_details, _ := helpers.UploadFile(w, r, email)
 
 	// Submit a title of the page
 	strMap := make(map[string]string)
@@ -54,7 +53,6 @@ func (handlerRepo *Repository) RegisterPost(w http.ResponseWriter, r *http.Reque
 	form.MinLength("fname", 4)
 	form.MinLength("lname", 4)
 	form.IsPassswordMatched("password", "confirm-password")
-
 	// render the template
 	if !form.Valid() { // when there errors
 		render.Template(w, r, "register.page.gohtml", &models.TemplateData{
@@ -64,6 +62,10 @@ func (handlerRepo *Repository) RegisterPost(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	imgName := fmt.Sprint(uuid.New())
+	// imgName := fname + lname
+	// upload an image to the filesystem (./static/images)
+	img_details, _ := helpers.UploadFile(w, r, imgName)
 	newUser := models.User{
 		User_id:       uuid.New(),
 		First_name:    fname,
@@ -71,20 +73,18 @@ func (handlerRepo *Repository) RegisterPost(w http.ResponseWriter, r *http.Reque
 		Email:         email,
 		Password:      password,
 		Gender:        gender,
-		Profile_image: email + img_details.Extension,
+		Profile_image: imgName + img_details.Extension,
 		Last_login:    time.Now(),
 		Created_at:    time.Now(),
 		Updated_at:    time.Now(),
 	}
-	u, err := handlerRepo.DB.InsertUser(newUser)
+	_, err = handlerRepo.DB.InsertUser(newUser)
 	if err != nil {
-		log.Println("error persisting data in the DB::", err)
 		handlerRepo.App.Session.Put(r.Context(), "error", "Error registering, please try again later!")
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
-	log.Println(u)
 	// when everything is okay
 	handlerRepo.App.Session.Put(r.Context(), "flash", "You have been registered successfully")
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 }

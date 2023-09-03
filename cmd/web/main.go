@@ -15,6 +15,7 @@ import (
 	db "github.com/mrkouhadi/chinauptodate/internal/db/postgres"
 	"github.com/mrkouhadi/chinauptodate/internal/handlers"
 	"github.com/mrkouhadi/chinauptodate/internal/helpers"
+	"github.com/mrkouhadi/chinauptodate/internal/models"
 	"github.com/mrkouhadi/chinauptodate/internal/render"
 )
 
@@ -28,6 +29,8 @@ var errorLog *log.Logger
 func main() {
 	// register gob
 	gob.Register(uuid.UUID{})
+	gob.Register(models.User{})
+
 	// set the project into DEV mode
 	app.InProduction = false
 

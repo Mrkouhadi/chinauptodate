@@ -6,6 +6,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/mrkouhadi/chinauptodate/internal/db"
 	"github.com/mrkouhadi/chinauptodate/internal/helpers"
@@ -51,4 +52,26 @@ func (r *PgxRepository) AuthenticateUser(email, password string) (*models.User, 
 		return nil, errors.New("incorrect credentials")
 	}
 	return &a, nil
+}
+
+// update user
+func (r *PgxRepository) UpdateUser(id uuid.UUID, updated models.User) (*models.User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	query := "UPDATE users SET first_name=$1,last_name=$2, gender=$3, email=$4, password=$5, profile_image=$6, last_login=$7, updated_at=$8 WHERE user_id = $9"
+	res, err := r.db.Exec(ctx, query, updated.First_name, updated.Last_name, updated.Gender, updated.Email, updated.Password, updated.Profile_image, updated.Last_login, updated.Updated_at, id)
+	if err != nil {
+		var pgxError *pgconn.PgError
+		if errors.As(err, &pgxError) {
+			if pgxError.Code == "23505" {
+				return nil, db.ErrDuplicate
+			}
+		}
+		return nil, err
+	}
+	rowsAffected := res.RowsAffected()
+	if rowsAffected == 0 {
+		return nil, db.ErrUpdateFailed
+	}
+	return &updated, nil
 }
