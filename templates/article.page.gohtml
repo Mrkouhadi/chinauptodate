@@ -8,7 +8,7 @@
             <h1>Date: {{GetDate $a.Created_at}}</h1>
             <h1>Category:{{ index .StringMap "title"}}</h1>
             image: <br>
-            <img src="{{$a.News_image}}" class="w-66 h-52 rounded"/> 
+            <img src="/static/images/{{$a.News_image}}" class="w-66 h-52 rounded"/> 
         </div>
 
         {{/* modal */}}
